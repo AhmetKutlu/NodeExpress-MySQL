@@ -3,6 +3,13 @@ kind: Application
 metadata:
   name: node-express-app
   namespace: argocd
+  annotations:
+    notifications.argoproj.io/subscriptions: |
+      - trigger: [on-sync-running, on-sync-succeeded]
+        destinations:
+          - service: slack
+            recipients: [a-project]
+
 spec:
   destination:
     namespace: dev

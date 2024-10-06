@@ -26,3 +26,5 @@ data:
     {{- toYaml . | nindent 2 }}
   {{- end }}
 {{- end }}
+  service.slack: |
+    token: $slack-token

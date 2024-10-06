@@ -169,7 +169,11 @@ auth:
 ##      #!/bin/bash
 ##      echo "Do something."
 ##
-initdbScripts: {}
+initdbScripts:
+  init.sql: |    
+    CREATE DATABASE IF NOT EXISTS testdb;    
+    USE testdb;    
+    CREATE TABLE IF NOT EXISTS `tutorials` (id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, title varchar(255) NOT NULL, description varchar(255), published BOOLEAN DEFAULT false) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ## @param initdbScriptsConfigMap ConfigMap with the initdb scripts (Note: Overrides `initdbScripts`)
 ##
 initdbScriptsConfigMap: ""
@@ -303,7 +307,11 @@ primary:
   ## @param primary.tolerations Tolerations for MySQL primary pods assignment
   ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   ##
-  tolerations: []
+  tolerations:
+    - key: "environment"
+      operator: "Equal"
+      value: "dev"
+      effect: "NoExecute"
   ## @param primary.priorityClassName MySQL primary pods' priorityClassName
   ##
   priorityClassName: ""
